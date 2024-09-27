@@ -8,6 +8,8 @@ import { loginSchema } from "./ValidationSchema";
 import InputField from "../../common/InputField/InputField";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
+import { login } from "../../../store/applicationStore/actions";
 
 const initialValues: LoginFormValues = {
   username: "",
@@ -16,6 +18,7 @@ const initialValues: LoginFormValues = {
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const formik = useFormik<LoginFormValues>({
     initialValues,
@@ -35,6 +38,7 @@ const LoginForm: React.FC = () => {
     );
 
     if (user) {
+      dispatch(login());
       navigate("/ordens-de-servicos");
     } else {
       toast.error("Nome de usuário ou senha incorretos!");

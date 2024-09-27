@@ -4,5 +4,9 @@ import { applicationInitialState } from "./initialState";
 export const applicationSlice = createSlice({
   name: "application",
   initialState: applicationInitialState,
-  reducers: {},
+  reducers: {
+    login(state) {
+      state.user.isLogged = true;
+    },
+  },
 });
