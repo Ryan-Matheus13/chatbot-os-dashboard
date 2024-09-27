@@ -6,7 +6,9 @@ export default function AuthLayout() {
   const location = useLocation();
   return (
     <>
-      {location.pathname == "/login" && <Login />}
+      <div className="main-auth">
+        {location.pathname == "/login" && <Login />}
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={5000}
