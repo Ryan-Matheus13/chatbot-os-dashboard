@@ -24,7 +24,6 @@ const LoginForm: React.FC = () => {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: (values: LoginFormValues) => {
-      console.log("Form values:", values);
       handleLogin(values.username, values.password);
     },
   });
@@ -38,7 +37,7 @@ const LoginForm: React.FC = () => {
     );
 
     if (user) {
-      dispatch(login());
+      dispatch(login(username));
       navigate("/ordens-de-servicos");
     } else {
       toast.error("Nome de usuário ou senha incorretos!");

@@ -18,6 +18,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       disabled={disabled}
       color={color}
       variant={variant}
+      size="small"
       {...rest}
     >
       <Icon className={styles.actionButtonIcon} />

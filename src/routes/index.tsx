@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Dashboard from "../pages/Dashboard";
+import ServiceOrders from "../pages/ServiceOrders";
 import MainLayout from "../layout/MainLayout";
 import Login from "../pages/Login";
 import AuthLayout from "../layout/AuthLayout";
+import OrdersMap from "../pages/OrdersMap";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "ordens-de-servicos",
-            element: <Dashboard />,
+            element: <ServiceOrders />,
+          },
+          {
+            path: "mapa-de-ordens",
+            element: <OrdersMap />,
           },
         ],
       },

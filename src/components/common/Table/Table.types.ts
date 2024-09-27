@@ -2,9 +2,9 @@ export interface TableProps {
   title: string;
   rows: Array<unknown>;
   columns: Array<string>;
-  onCreate: (data: unknown) => void;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
-  onReadData: (id: string) => void;
-  onOpenHistory: (id: string) => void;
+  hiddenColumns: Array<string>;
+  onChangeStatus: (id: string) => void;
+  onOpenMaps: (id: string) => void;
+  onOpenPhotos: (id: string) => void;
+  onViewDescription: (id: string) => void;
 }
