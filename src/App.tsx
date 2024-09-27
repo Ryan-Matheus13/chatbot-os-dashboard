@@ -15,7 +15,11 @@ function App() {
     navigate("/login");
   }, [applicationStore.user.isLogged]);
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
 
 export default App;

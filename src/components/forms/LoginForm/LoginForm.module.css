@@ -1,4 +1,3 @@
-
 .btnRow {
   display: flex;
   justify-content: space-between;
@@ -7,18 +6,20 @@
 }
 
 .btn {
-  background-color: #0CCDCD;
+  background-color: #0ccdcd;
   color: #fff;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-} 
+}
 
 .submitErrorContainer {
-
+  display: flex;
+  justify-content: center;
 }
 
 .submitError {
-
+  font-size: 0.9rem;
+  color: red;
 }

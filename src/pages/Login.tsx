@@ -2,6 +2,7 @@ import "react";
 import LoginForm from "../components/forms/LoginForm/LoginForm";
 import styles from "../styles/login.module.css";
 import Logo from "../assets/logo.svg";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   return (
