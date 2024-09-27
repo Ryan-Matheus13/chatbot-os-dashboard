@@ -3,7 +3,5 @@ import Login from "../pages/Login";
 
 export default function AuthLayout() {
   const location = useLocation();
-  return (
-    <div className="main">{location.pathname == "/login" && <Login />}</div>
-  );
+  return location.pathname == "/login" && <Login />;
 }

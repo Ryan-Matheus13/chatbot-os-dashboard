@@ -1,0 +1,61 @@
+.login {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+}
+
+.loginContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8.2px);
+  -webkit-backdrop-filter: blur(8.2px);
+  gap: 3rem;
+}
+
+.loginFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  padding: 1.5rem;
+  color: #035656;
+}
+
+.loginFormContainer h1 {
+ font-size: 1.5rem; 
+}
+.loginFormContainer h2 {
+  font-size: 1rem; 
+}
+
+.loginLogo {
+  height: 3rem;
+}
+
+.loginFormHeaderContainer,
+.loginFormHeader {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.loginFormHeader {
+  flex: 1;
+  flex-direction: column;
+  gap: 0.2rem;
+}
