@@ -99,30 +99,32 @@ export default function MainLayout(props: LayoutProps) {
 
   return (
     <>
-      <AppProvider
-        branding={{
-          logo: <img src={Logo} height={45} width={45} alt="logo" />,
-          title: "",
-        }}
-        authentication={{
-          signIn: () => {},
-          signOut: handleLogout,
-        }}
-        session={{
-          user: {
-            email: "test@email.com",
-            name: applicationStore.user.username,
-          },
-        }}
-        navigation={NAVIGATION}
-        router={router}
-        theme={theme}
-        window={layoutWindow}
-      >
-        <DashboardLayout>
-          <PageContent pathname={location.pathname} />
-        </DashboardLayout>
-      </AppProvider>
+      <div className="container-main">
+        <AppProvider
+          branding={{
+            logo: <img src={Logo} height={45} width={45} alt="logo" />,
+            title: "",
+          }}
+          authentication={{
+            signIn: () => {},
+            signOut: handleLogout,
+          }}
+          session={{
+            user: {
+              email: "test@email.com",
+              name: applicationStore.user.username,
+            },
+          }}
+          navigation={NAVIGATION}
+          router={router}
+          theme={theme}
+          window={layoutWindow}
+        >
+          <DashboardLayout>
+            <PageContent pathname={location.pathname} />
+          </DashboardLayout>
+        </AppProvider>
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={5000}
