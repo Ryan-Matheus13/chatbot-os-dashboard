@@ -132,31 +132,6 @@ export default function Map(props: any) {
             </p>
           </div>
         </div>
-        {/* <Box
-          sx={{
-            p: 4,
-            bgcolor: "red",
-            borderRadius: "8px",
-            maxWidth: "400px",
-            margin: "auto",
-            mt: "20%",
-          }}
-        >
-          {selectedLocation && (
-            <>
-              <h2>{selectedLocation.title}</h2>
-              <p>{selectedLocation.description}</p>
-              {selectedLocation.photos.map((photo: string, index: number) => (
-                <img
-                  key={index}
-                  src={photo}
-                  alt={`Foto ${index + 1}`}
-                  style={{ width: "100%", marginBottom: "10px" }}
-                />
-              ))}
-            </>
-          )}
-        </Box> */}
       </Popover>
     </div>
   );

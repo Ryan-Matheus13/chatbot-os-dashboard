@@ -150,10 +150,7 @@ const Table: React.FC<TableProps> = ({
                           <>
                             <TableCell
                               style={{
-                                fontWeight:
-                                  key == "status" || key == "relatedIn"
-                                    ? "bold"
-                                    : "normal",
+                                fontWeight: key == "status" ? "bold" : "normal",
                               }}
                             >
                               {key == "category" && (
