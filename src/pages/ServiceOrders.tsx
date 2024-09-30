@@ -19,6 +19,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -33,6 +34,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -47,6 +49,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -61,6 +64,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -75,6 +79,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -89,6 +94,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -103,6 +109,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -117,6 +124,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -131,6 +139,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -145,6 +154,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -159,6 +169,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -173,6 +184,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
           {
             id: "ufe7ysfr-ie6742niwf-982hbwfeui89-89sfy98rg",
@@ -187,6 +199,7 @@ export default function ServiceOrders() {
               "Q.58 C.5A, bairro Conjunto Renascença II - 5A, Teresina, PI - 64082-550",
             routeDistance: "2.3 Km",
             team: "Equipe Delta",
+            relatedIn: "30/09/2024 às 14:05",
           },
         ]}
         columns={[
@@ -197,6 +210,7 @@ export default function ServiceOrders() {
           "Endereço",
           "Distância",
           "Equipe",
+          "Relatado Em",
           "Ações",
         ]}
         hiddenColumns={["location", "subCategory"]}

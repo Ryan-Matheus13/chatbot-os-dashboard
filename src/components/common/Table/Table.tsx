@@ -150,7 +150,10 @@ const Table: React.FC<TableProps> = ({
                           <>
                             <TableCell
                               style={{
-                                fontWeight: key == "status" ? "bold" : "normal",
+                                fontWeight:
+                                  key == "status" || key == "relatedIn"
+                                    ? "bold"
+                                    : "normal",
                               }}
                             >
                               {key == "category" && (
@@ -188,26 +191,30 @@ const Table: React.FC<TableProps> = ({
                         ))}
                       <TableCell>
                         <div className={styles.actionBtnContainer}>
-                          <ActionButton
-                            title="Ver descrição completa"
-                            onClick={() => onViewDescription(row.id)}
-                            Icon={() => <InfoRoundedIcon fontSize="small" />}
-                          />
-                          <ActionButton
-                            title="Ver fotos da ocorrência"
-                            onClick={() => onOpenPhotos(row.id)}
-                            Icon={() => <PhotosIcon fontSize="small" />}
-                          />
-                          <ActionButton
-                            title="Ver no localização no mapa"
-                            onClick={() => onOpenMaps(row.id)}
-                            Icon={() => <MapsIcon fontSize="small" />}
-                          />
-                          <ActionButton
-                            title="Atualizar status da ocorrência"
-                            onClick={() => onChangeStatus(row.id)}
-                            Icon={() => <RefreshIcon fontSize="small" />}
-                          />
+                          <Stack direction="column" spacing={1}>
+                            <ActionButton
+                              title="Ver descrição completa"
+                              onClick={() => onViewDescription(row.id)}
+                              Icon={() => <InfoRoundedIcon fontSize="small" />}
+                            />
+                            <ActionButton
+                              title="Ver fotos da ocorrência"
+                              onClick={() => onOpenPhotos(row.id)}
+                              Icon={() => <PhotosIcon fontSize="small" />}
+                            />
+                          </Stack>
+                          <Stack direction="column" spacing={1}>
+                            <ActionButton
+                              title="Ver no localização no mapa"
+                              onClick={() => onOpenMaps(row.id)}
+                              Icon={() => <MapsIcon fontSize="small" />}
+                            />
+                            <ActionButton
+                              title="Atualizar status da ocorrência"
+                              onClick={() => onChangeStatus(row.id)}
+                              Icon={() => <RefreshIcon fontSize="small" />}
+                            />
+                          </Stack>
                         </div>
                       </TableCell>
                     </TableRow>
