@@ -1,0 +1,31 @@
+.popoverContainer {
+  background-color: #ffffff;
+  max-width: 400px;
+}
+
+.popoverImage {
+  padding: 1rem;
+  object-fit: contain;
+}
+
+.popoverImage img {
+  max-height: 200px;
+  border-radius: 1rem;
+}
+
+.popoverContent {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.popoverTitle {
+  color: #555;
+  font-size: 1.3rem;
+}
+
+.popoverDescription {
+  color: #777;
+  font-size: 0.9rem;
+}
