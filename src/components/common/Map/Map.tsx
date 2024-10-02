@@ -90,14 +90,23 @@ export default function Map(props: any) {
         defaultZoom={props.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
         onGoogleApiLoaded={({ map, maps }: any) => {
-          locations.forEach((location) => {
+          if (props.onlyOneMarker) {
             renderPins(
               map,
               maps,
               (loc: any, event: any) => handleMarkerClick(loc, event),
-              location
+              props.onlyOneMarker
             );
-          });
+          } else {
+            locations.forEach((location) => {
+              renderPins(
+                map,
+                maps,
+                (loc: any, event: any) => handleMarkerClick(loc, event),
+                location
+              );
+            });
+          }
         }}
       />
 

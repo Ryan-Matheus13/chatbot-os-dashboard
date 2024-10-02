@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Img } from "react-image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importando os estilos do carrossel
+import Loading from "../Loading/Loading";
 
 const CarouselComponent = (props: any) => {
-  console.log(props);
   return (
     <div>
       <Carousel
@@ -17,7 +18,16 @@ const CarouselComponent = (props: any) => {
         {props.images.map((url: string) => {
           return (
             <div>
-              <img loading="lazy" src={url} alt="" />
+              <Img
+                src={url}
+                alt=""
+                loader={
+                  <div style={{ width: "100%", height: "600px" }}>
+                    <Loading />
+                  </div>
+                }
+                unloader={<span>Imagem não encontrada</span>}
+              />
             </div>
           );
         })}

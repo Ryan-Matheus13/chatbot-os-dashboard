@@ -1,0 +1,23 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.btnRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

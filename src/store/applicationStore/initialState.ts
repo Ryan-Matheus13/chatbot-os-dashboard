@@ -5,4 +5,5 @@ export const applicationInitialState: IApplicationProps = {
     username: "",
     isLogged: false,
   },
+  serviceOrders: [],
 };

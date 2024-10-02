@@ -1,0 +1,44 @@
+[
+  {
+    "id": "7cc86915-7387-41e4-b71d-73fe0163ec1a",
+    "name": "Manutenção Urbana",
+    "subcategory": [
+      {
+        "id": "fe997afc-5fec-4689-8041-bbb7b97b2ea1",
+        "name": "Poda de Árvore"
+      },
+      {
+        "id": "6a05823f-88f0-4c1d-9249-2216072f2388",
+        "name": "Mato Alto"
+      }
+    ]
+  },
+  {
+    "id": "2a2f610e-3d13-4579-b7b8-fa8429639927",
+    "name": "Limpeza Pública",
+    "subcategory": [
+      {
+        "id": "bed47c12-aab8-464d-ad1c-bcf8185ff73f",
+        "name": "Descarte Irregular de lixo"
+      },
+      {
+        "id": "017598be-6f2b-4273-97e4-fe91d8c1302c",
+        "name": "Entulho na Calçada"
+      }
+    ]
+  },
+  {
+    "id": "74388ee1-7d0f-4cb9-9fa3-ea292fa85a77",
+    "name": "Iluminação Pública",
+    "subcategory": [
+      {
+        "id": "51e2b499-81d5-4c05-9ef5-f3d4e993b2b7",
+        "name": "Lâmpada Acesa de Dia"
+      },
+      {
+        "id": "bbfc0416-f7c4-4a0d-9bdf-1568b3a8d318",
+        "name": "Lâmpada Apagada de Noite"
+      }
+    ]
+  }
+]

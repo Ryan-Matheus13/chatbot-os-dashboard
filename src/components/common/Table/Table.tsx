@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// MODO MOBILE COM LINHAS VIRANDO CARDS
 import React, { useEffect, useState } from "react";
 import styles from "./Table.module.css";
 import MuiTable from "@mui/material/Table";
@@ -20,6 +21,8 @@ import Pagination from "../Pagination/Pagination";
 import ActionButton from "../ActionButton/ActionButton";
 import { alpha, Chip, InputBase, Stack, styled } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import Loading from "../Loading/Loading";
+import { useAppSelector } from "../../../store/hooks/useAppSelector";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -68,23 +71,27 @@ const Table: React.FC<TableProps> = ({
   rows,
   columns,
   hiddenColumns,
-  onChangeStatus,
-  onOpenMaps,
-  onOpenPhotos,
-  onViewDescription,
+  onOpenModal,
+  isLoading,
 }) => {
+  const applicationStore = useAppSelector((store) => store.application);
+
   const [data, setData] = useState<Array<any>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalPerPages, setTotalPerPages] = useState<number>(5);
+
+  console.log("rows: ", rows);
+
+  useEffect(() => {
+    handleProcessing();
+  }, [applicationStore.serviceOrders]);
+
   const handleProcessing = () => {
     const dados = splitArrayIntoChunks(rows, totalPerPages);
     setData(dados);
     setTotalPages(dados.length);
   };
-  useEffect(() => {
-    handleProcessing();
-  }, [totalPerPages]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -106,7 +113,8 @@ const Table: React.FC<TableProps> = ({
           inputProps={{ "aria-label": "search" }}
         />
       </Search>
-      <TableContainer component={Paper}>
+      <TableContainer sx={{ position: "relative" }} component={Paper}>
+        {isLoading && <Loading />}
         <MuiTable
           sx={{
             minWidth: 650,
@@ -136,8 +144,8 @@ const Table: React.FC<TableProps> = ({
               })}
             </TableRow>
           </TableHead>
-          <TableBody>
-            {data.length > 0 && (
+          <TableBody sx={{ height: "400px" }}>
+            {data.length > 0 && !isLoading && (
               <>
                 {data[currentPage - 1].map((row: any, rowIndex: number) => (
                   <>
@@ -170,7 +178,10 @@ const Table: React.FC<TableProps> = ({
                               {key == "team" && (
                                 <Stack direction="column" spacing={1}>
                                   <Chip
-                                    label={row[key]}
+                                    onClick={() =>
+                                      onOpenModal(row, "Atualizar Time", "team")
+                                    }
+                                    label={row[key].name}
                                     color="warning"
                                     variant="outlined"
                                   />
@@ -191,24 +202,44 @@ const Table: React.FC<TableProps> = ({
                           <Stack direction="column" spacing={1}>
                             <ActionButton
                               title="Ver descrição completa"
-                              onClick={() => onViewDescription(row.id)}
+                              onClick={() =>
+                                onOpenModal(
+                                  row,
+                                  "Detalhes - Nº" + row.osNumber,
+                                  "description"
+                                )
+                              }
                               Icon={() => <InfoRoundedIcon fontSize="small" />}
                             />
                             <ActionButton
                               title="Ver fotos da ocorrência"
-                              onClick={() => onOpenPhotos(row.id)}
+                              onClick={() =>
+                                onOpenModal(
+                                  row,
+                                  "Fotos da Ocorrência",
+                                  "photos"
+                                )
+                              }
                               Icon={() => <PhotosIcon fontSize="small" />}
                             />
                           </Stack>
                           <Stack direction="column" spacing={1}>
                             <ActionButton
-                              title="Ver no localização no mapa"
-                              onClick={() => onOpenMaps(row.id)}
+                              title="Ver localização no mapa"
+                              onClick={() =>
+                                onOpenModal(
+                                  row,
+                                  "Localização da Ocorrência",
+                                  "map"
+                                )
+                              }
                               Icon={() => <MapsIcon fontSize="small" />}
                             />
                             <ActionButton
                               title="Atualizar status da ocorrência"
-                              onClick={() => onChangeStatus(row.id)}
+                              onClick={() =>
+                                onOpenModal(row, "Atualizar Status", "status")
+                              }
                               Icon={() => <RefreshIcon fontSize="small" />}
                             />
                           </Stack>

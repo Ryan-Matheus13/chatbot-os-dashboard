@@ -1,9 +1,9 @@
 import { ButtonProps as ButtonPropsMui } from "@mui/material";
 
 export interface ButtonProps extends Omit<ButtonPropsMui, "variant" | "color"> {
-  id: string;
+  id?: string;
   label: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   color?:
     | "inherit"
