@@ -146,12 +146,14 @@ export default function ServiceOrders() {
         </Modal>
       )}
       {modalPage == "description" && (
+        // adicionar campo telefone
         <Modal
           maxWidth="600px"
           open={open}
           close={handleClose}
           title={modalTitle}
         >
+          {/* adicionar campo de ultima atualização e campo atualizado e atalho para carousel de fotos */}
           <InfoCard data={selectedOrder} />
         </Modal>
       )}
