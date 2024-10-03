@@ -15,6 +15,7 @@ const locations = [
   {
     lat: -5.059215,
     lng: -42.7928496,
+    category: "Manutenção Urbana",
     title: "Local 1",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, alias doloribus culpa illo soluta repudiandae dolorem? Porro, consequatur natus enim deserunt, debitis voluptatibus odio, laudantium nisi nulla unde perferendis nihil?",
@@ -26,6 +27,7 @@ const locations = [
   {
     lat: -5.1058647,
     lng: -42.8197988,
+    category: "Limpeza Pública",
     title: "Local 2",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, alias doloribus culpa illo soluta repudiandae dolorem? Porro, consequatur natus enim deserunt, debitis voluptatibus odio, laudantium nisi nulla unde perferendis nihil?",
@@ -37,6 +39,7 @@ const locations = [
   {
     lat: -5.071883,
     lng: -42.804559,
+    category: "Manutenção Urbana",
     title: "Local 3",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, alias doloribus culpa illo soluta repudiandae dolorem? Porro, consequatur natus enim deserunt, debitis voluptatibus odio, laudantium nisi nulla unde perferendis nihil?",
@@ -48,6 +51,7 @@ const locations = [
   {
     lat: -5.0987516,
     lng: -42.7459108,
+    category: "Iluminação Pública",
     title: "Local 4",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi, alias doloribus culpa illo soluta repudiandae dolorem? Porro, consequatur natus enim deserunt, debitis voluptatibus odio, laudantium nisi nulla unde perferendis nihil?",
@@ -86,7 +90,11 @@ export default function Map(props: any) {
       <GoogleMapReact
         options={createMapOptions}
         bootstrapURLKeys={{ key: import.meta.env.VITE_MAP_KEY }}
-        defaultCenter={props.center}
+        defaultCenter={
+          props.onlyOneMarker.lat
+            ? { lat: props.onlyOneMarker.lat, lng: props.onlyOneMarker.lng }
+            : { lat: locations[0].lat, lng: locations[0].lng }
+        }
         defaultZoom={props.zoom}
         yesIWantToUseGoogleMapApiInternals={true}
         onGoogleApiLoaded={({ map, maps }: any) => {

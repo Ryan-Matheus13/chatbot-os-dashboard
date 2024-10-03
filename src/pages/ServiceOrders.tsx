@@ -99,14 +99,11 @@ export default function ServiceOrders() {
         {modalPage == "map" && (
           <div className={styles.mapContainer}>
             <Map
-              center={{
-                lat: -5.0635954,
-                lng: -42.7963721,
-              }}
-              zoom={10}
+              zoom={14}
               onlyOneMarker={{
                 lat: selectedOrder?.location.lat,
                 lng: selectedOrder?.location.lng,
+                category: selectedOrder?.category,
                 title:
                   selectedOrder?.category + " - " + selectedOrder?.subCategory,
                 description: selectedOrder?.description,

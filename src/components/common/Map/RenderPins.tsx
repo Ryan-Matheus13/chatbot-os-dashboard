@@ -2,12 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import PinRed from "../../../assets/pinImage.png";
+import PinRed from "../../../assets/manutencao_urbana.png";
+import PinOrange from "../../../assets/limpeza_publica.png";
+import PinYellow from "../../../assets/iluminacao_publica.png";
 
 interface Location {
   lat: number;
   lng: number;
   title: string;
+  category: string;
   description: string;
   photos: string[];
 }
@@ -61,8 +64,16 @@ const createMergedImage = (
 const CustomPin: React.FC<{
   photo: string;
   onGenerated: (url: string) => void;
-}> = ({ photo, onGenerated }) => {
-  const pinImageSrc = PinRed;
+  category: string;
+}> = ({ photo, onGenerated, category }) => {
+  let pinImageSrc;
+  if (category == "Iluminação Pública") {
+    pinImageSrc = PinYellow;
+  } else if (category == "Manutenção Urbana") {
+    pinImageSrc = PinRed;
+  } else {
+    pinImageSrc = PinOrange;
+  }
 
   useEffect(() => {
     // Chama a função para mesclar as imagens e gerar o URL
@@ -85,6 +96,7 @@ const renderPins = (
   ReactDOM.render(
     <CustomPin
       photo={location.photos[0]}
+      category={location.category}
       onGenerated={(mergedImageUrl) => {
         const marker = new maps.Marker({
           position: { lat: location.lat, lng: location.lng },

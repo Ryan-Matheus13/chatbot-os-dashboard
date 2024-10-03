@@ -20,9 +20,8 @@ const CarouselComponent = (props: any) => {
             <div>
               <Img
                 src={url}
-                alt=""
                 loader={
-                  <div style={{ width: "100%", height: "600px" }}>
+                  <div style={{ width: "100%", height: "300px" }}>
                     <Loading />
                   </div>
                 }
