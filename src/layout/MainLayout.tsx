@@ -7,7 +7,7 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import type { Router, Navigation } from "@toolpad/core";
 import { createTheme } from "@mui/material";
-import Logo from "../assets/logo.svg";
+// import Logo from "../assets/logo.svg";
 import LayersIcon from "@mui/icons-material/Layers";
 import MapIcon from "@mui/icons-material/MapRounded";
 import OrdersMap from "../pages/OrdersMap";
@@ -36,7 +36,14 @@ const theme = createTheme({
   cssVariables: {
     colorSchemeSelector: "data-toolpad-color-scheme",
   },
-  colorSchemes: { light: true, dark: true },
+  palette: {
+    primary: {
+      main: "#5DCDCD",
+      contrastText: "#fff",
+    },
+    // secondary: {},
+  },
+  colorSchemes: { light: true, dark: false },
   breakpoints: {
     values: {
       xs: 0,
@@ -52,6 +59,30 @@ const theme = createTheme({
         root: ({ theme }) => ({
           border: theme.palette.mode === "dark" ? "none" : "1px  solid #dcdcdc",
         }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h3: {
+          fontSize: "1.5rem",
+        },
+        h5: {
+          fontSize: "1.2rem",
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#5DCDCD !important",
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#035656 !important",
+        },
       },
     },
   },
@@ -102,8 +133,8 @@ export default function MainLayout(props: LayoutProps) {
       <div className="container-main">
         <AppProvider
           branding={{
-            logo: <img src={Logo} height={45} width={45} alt="logo" />,
-            title: "",
+            logo: <img src={""} height={0} width={0} alt="" />,
+            title: "Smart Colab",
           }}
           authentication={{
             signIn: () => {},

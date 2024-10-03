@@ -11,6 +11,7 @@ import { useAppSelector } from "../store/hooks/useAppSelector";
 import styles from "../styles/serviceOrders.module.css";
 import CarouselComponent from "../components/common/Carousel/Carousel";
 import Map from "../components/common/Map/Map";
+import InfoCard from "../components/common/InfoCard/InfoCard";
 
 export default function ServiceOrders() {
   const applicationStore = useAppSelector((store) => store.application);
@@ -81,22 +82,41 @@ export default function ServiceOrders() {
         ]}
         onOpenModal={handleOpenModal}
       />
-      <Modal open={open} close={handleClose} title={modalTitle}>
-        {modalPage == "team" && (
+      {modalPage == "team" && (
+        <Modal
+          maxWidth="100%"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
           <ChangeTeamForm
             order={selectedOrder}
             onClose={handleClose}
             onLoading={handleLoading}
           />
-        )}
-        {modalPage == "status" && (
+        </Modal>
+      )}
+      {modalPage == "status" && (
+        <Modal
+          maxWidth="100%"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
           <ChangeStatusForm
             order={selectedOrder}
             onClose={handleClose}
             onLoading={handleLoading}
           />
-        )}
-        {modalPage == "map" && (
+        </Modal>
+      )}
+      {modalPage == "map" && (
+        <Modal
+          maxWidth="100%"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
           <div className={styles.mapContainer}>
             <Map
               zoom={14}
@@ -111,14 +131,30 @@ export default function ServiceOrders() {
               }}
             />
           </div>
-        )}
-        {modalPage == "photos" && (
+        </Modal>
+      )}
+      {modalPage == "photos" && (
+        <Modal
+          maxWidth="100%"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
           <div className={styles.photosContainer}>
             <CarouselComponent images={selectedOrder?.images} />
           </div>
-        )}
-        {modalPage == "description" && <span>description</span>}
-      </Modal>
+        </Modal>
+      )}
+      {modalPage == "description" && (
+        <Modal
+          maxWidth="600px"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
+          <InfoCard data={selectedOrder} />
+        </Modal>
+      )}
     </>
   );
 }

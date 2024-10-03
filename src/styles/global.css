@@ -54,11 +54,12 @@ a {
 }
 .content {
   flex: 1;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 0;
+  border-radius: 0;
   overflow: hidden;
   height: 100%;
   width: 100%;
+  background-color: #d6f6f6;
 }
 .map {
   display: flex;
@@ -84,4 +85,37 @@ main {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.MuiToolbar-root .MuiTypography-root {
+  color: #fff !important;
+}
+
+.MuiDrawer-root .MuiPaper-root,
+.MuiDrawer-root .MuiListSubheader-root {
+  background-color: #035656 !important;
+  color: #dcdcdc;
+}
+
+.MuiDrawer-root
+  a.MuiListItemButton-root.Mui-selected
+  .MuiListItemIcon-root
+  .MuiSvgIcon-root,
+.MuiDrawer-root
+  a.MuiListItemButton-root.Mui-selected
+  .MuiListItemText-root
+  .MuiTypography-root {
+  color: #00cfc1 !important;
+}
+
+.MuiDrawer-root a.MuiListItemButton-root .MuiListItemIcon-root .MuiSvgIcon-root,
+.MuiDrawer-root
+  a.MuiListItemButton-root
+  .MuiListItemText-root
+  .MuiTypography-root {
+  color: #dcdcdc !important;
+}
+
+header {
+  border: none !important;
 }

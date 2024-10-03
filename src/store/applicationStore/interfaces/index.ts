@@ -23,8 +23,8 @@ type IServiceOrder = {
   address: string;
   routeDistance: string;
   team: ITeam;
-  relatedAt: Date;
-  updatedAt: Date;
+  relatedAt: string;
+  updatedAt: string;
   images: Array<string>;
 };
 

@@ -91,9 +91,9 @@ export default function Map(props: any) {
         options={createMapOptions}
         bootstrapURLKeys={{ key: import.meta.env.VITE_MAP_KEY }}
         defaultCenter={
-          props.onlyOneMarker.lat
+          props.onlyOneMarker
             ? { lat: props.onlyOneMarker.lat, lng: props.onlyOneMarker.lng }
-            : { lat: locations[0].lat, lng: locations[0].lng }
+            : { lat: locations[0]?.lat, lng: locations[0]?.lng }
         }
         defaultZoom={props.zoom}
         yesIWantToUseGoogleMapApiInternals={true}

@@ -5,4 +5,5 @@ export interface ModalProps {
   close: () => void;
   children: ReactNode;
   title: string;
+  maxWidth: string;
 }

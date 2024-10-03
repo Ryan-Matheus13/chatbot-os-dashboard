@@ -53,11 +53,12 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
-
   "& .MuiInputBase-input": {
+    width: "100% !important",
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
+    backgroundColor: "rgba(255, 255, 255, 0.595) !important",
     [theme.breakpoints.up("sm")]: {
       width: "12ch",
       "&:focus": {
@@ -118,12 +119,14 @@ const Table: React.FC<TableProps> = ({
         <MuiTable
           sx={{
             minWidth: 650,
-            borderRadius: "7.5px",
+            borderRadius: "0.5rem",
             borderCollapse: "separate",
+            boxShadow: "none",
+            backgroundColor: "#f8ffff",
           }}
           aria-label="caption table"
         >
-          <caption>
+          <caption style={{ backgroundColor: "#f8ffff" }}>
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}
@@ -159,13 +162,14 @@ const Table: React.FC<TableProps> = ({
                             <TableCell
                               style={{
                                 fontWeight: key == "status" ? "bold" : "normal",
+                                color: key == "status" ? "#035656" : "#555",
                               }}
                             >
                               {key == "category" && (
                                 <Stack direction="column" spacing={1}>
                                   <Chip
                                     label={row[key]}
-                                    color="primary"
+                                    color="info"
                                     variant="outlined"
                                   />
                                   <Chip
@@ -203,11 +207,7 @@ const Table: React.FC<TableProps> = ({
                             <ActionButton
                               title="Ver descrição completa"
                               onClick={() =>
-                                onOpenModal(
-                                  row,
-                                  "Detalhes - Nº" + row.osNumber,
-                                  "description"
-                                )
+                                onOpenModal(row, "", "description")
                               }
                               Icon={() => <InfoRoundedIcon fontSize="small" />}
                             />

@@ -11,3 +11,10 @@
   width: 1280px;
   height: 600px;
 }
+
+@media (max-width: 768px) {
+  .mapContainer {
+    width: 100%;
+    height: 500px;
+  }
+}

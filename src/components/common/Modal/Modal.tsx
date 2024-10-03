@@ -2,7 +2,13 @@ import React from "react";
 import { Modal as ModalMui, Box, Typography } from "@mui/material";
 import { ModalProps } from "./Modal.types";
 
-const Modal: React.FC<ModalProps> = ({ open, close, children, title }) => {
+const Modal: React.FC<ModalProps> = ({
+  open,
+  close,
+  children,
+  title,
+  maxWidth,
+}) => {
   return (
     <ModalMui
       open={open}
@@ -22,14 +28,20 @@ const Modal: React.FC<ModalProps> = ({ open, close, children, title }) => {
           boxShadow: 24,
           p: 4,
           borderRadius: 2,
+          maxWidth,
         }}
       >
         {title && (
-          <Typography id="modal-title" variant="h6" component="h2">
+          <Typography
+            id="modal-title"
+            variant="h3"
+            style={{ textAlign: "center" }}
+            component="h1"
+          >
             {title}
           </Typography>
         )}
-        <Box id="modal-description" sx={{ mt: "1.5rem" }}>
+        <Box id="modal-description" sx={{ mt: title ? "1.5rem" : "0" }}>
           {children}
         </Box>
       </Box>
