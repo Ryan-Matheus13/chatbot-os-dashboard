@@ -134,7 +134,7 @@ export default function MainLayout(props: LayoutProps) {
         <AppProvider
           branding={{
             logo: <img src={""} height={0} width={0} alt="" />,
-            title: "Smart Colab",
+            title: "Smart Serviços",
           }}
           authentication={{
             signIn: () => {},
