@@ -8,12 +8,12 @@ function App() {
   const applicationStore = useAppSelector((store) => store.application);
 
   useEffect(() => {
-    if (applicationStore.user.isLogged) {
+    if (applicationStore.user.accessToken) {
       navigate("/ordens-de-servicos");
       return;
     }
     navigate("/login");
-  }, [applicationStore.user.isLogged]);
+  }, [applicationStore.user.accessToken]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./LoginForm.module.css";
 
 import { useFormik } from "formik";
@@ -9,7 +9,10 @@ import InputField from "../../common/InputField/InputField";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
-import { login } from "../../../store/applicationStore/actions";
+import { saveUser } from "../../../store/applicationStore/actions";
+import { useAppSelector } from "../../../store/hooks/useAppSelector";
+import Loading from "../../common/Loading/Loading";
+import { loginAsync } from "../../../store/applicationStore/thunks";
 
 const initialValues: LoginFormValues = {
   username: "",
@@ -18,35 +21,34 @@ const initialValues: LoginFormValues = {
 
 const LoginForm: React.FC = () => {
   const navigate = useNavigate();
+  const { user, loading, errorLogin } = useAppSelector(
+    (store) => store.application
+  );
   const dispatch = useAppDispatch();
 
   const formik = useFormik<LoginFormValues>({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: (values: LoginFormValues) => {
-      handleLogin(values.username, values.password);
+      dispatch(
+        loginAsync({ username: values.username, password: values.password })
+      );
+      console.log("error: ", errorLogin);
+      if (user.accessToken) {
+        dispatch(saveUser(values.username));
+        navigate("/ordens-de-servicos");
+      }
     },
   });
 
-  const handleLogin = async (username: string, password: string) => {
-    const response = await fetch("/users.json");
-    const users = await response.json();
-
-    const user = users.find(
-      (u: LoginFormValues) => u.username === username && u.password === password
-    );
-
-    if (user) {
-      dispatch(login(username));
-      navigate("/ordens-de-servicos");
-    } else {
-      toast.error("Nome de usuário ou senha incorretos!");
-    }
-  };
+  useEffect(() => {
+    toast.error(errorLogin);
+  }, [errorLogin]);
 
   return (
     <>
       <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
+        {loading && <Loading />}
         <InputField
           id="username"
           label="Username"

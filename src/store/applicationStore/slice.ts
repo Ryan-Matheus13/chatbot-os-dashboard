@@ -1,18 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { applicationInitialState } from "./initialState";
-import { IChangeStatusOrderPayload, IServiceOrder, ITeam } from "./interfaces";
+import {
+  IChangeStatusOrderPayload,
+  ILoginResponse,
+  IServiceOrder,
+  IServiceOrdersResponse,
+  ITeam,
+} from "./interfaces";
+import { getServiceOrdersAsync, loginAsync } from "./thunks";
+import { transformItems } from "../../utils/utils.helper";
 
 export const applicationSlice = createSlice({
   name: "application",
   initialState: applicationInitialState,
   reducers: {
-    login(state, action: PayloadAction<string>) {
-      state.user.isLogged = true;
+    saveUser(state, action: PayloadAction<string>) {
       state.user.username = action.payload;
     },
     logout(state) {
-      state.user.isLogged = false;
-      state.user.username = "";
+      state.user.username = null;
+      state.user.accessToken = null;
     },
     changeTeam(
       state,
@@ -39,5 +46,41 @@ export const applicationSlice = createSlice({
     loadOrders(state, action: PayloadAction<IServiceOrder[]>) {
       state.serviceOrders = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      // SEVICE ORDERS
+      .addCase(getServiceOrdersAsync.pending, (state) => {
+        state.loading = true;
+        state.errorServiceOrders = null;
+      })
+      .addCase(
+        getServiceOrdersAsync.fulfilled,
+        (state, action: PayloadAction<IServiceOrdersResponse>) => {
+          state.loading = false;
+          state.serviceOrders = transformItems(action.payload.chamados);
+        }
+      )
+      .addCase(getServiceOrdersAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errorServiceOrders = action.payload as string;
+      })
+
+      // LOGIN
+      .addCase(loginAsync.pending, (state) => {
+        state.loading = true;
+        state.errorLogin = null;
+      })
+      .addCase(
+        loginAsync.fulfilled,
+        (state, action: PayloadAction<ILoginResponse>) => {
+          state.loading = false;
+          state.user.accessToken = action.payload.access_token;
+        }
+      )
+      .addCase(loginAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errorLogin = action.payload as string;
+      });
   },
 });

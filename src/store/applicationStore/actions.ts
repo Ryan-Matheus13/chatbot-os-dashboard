@@ -1,4 +1,4 @@
 import { applicationSlice } from "./slice";
 
-export const { login, logout, changeTeam, changeStatus, loadOrders } =
+export const { saveUser, logout, changeTeam, changeStatus, loadOrders } =
   applicationSlice.actions;

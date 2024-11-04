@@ -70,6 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Table: React.FC<TableProps> = ({
   rows,
+  error,
   columns,
   hiddenColumns,
   onOpenModal,
@@ -81,8 +82,6 @@ const Table: React.FC<TableProps> = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalPerPages, setTotalPerPages] = useState<number>(5);
-
-  console.log("rows: ", rows);
 
   useEffect(() => {
     handleProcessing();
@@ -147,7 +146,34 @@ const Table: React.FC<TableProps> = ({
               })}
             </TableRow>
           </TableHead>
-          <TableBody sx={{ height: "400px" }}>
+          {error && (
+            <div
+              style={{
+                display: "table-caption",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                }}
+              >
+                <span
+                  style={{
+                    backgroundColor: "#EE7070",
+                    padding: "0.5rem 0",
+                    width: "100%",
+                    textAlign: "center",
+                    color: "white",
+                  }}
+                >
+                  ERROR
+                </span>
+              </div>
+            </div>
+          )}
+          <TableBody sx={{ maxHeight: "400px" }}>
             {data.length > 0 && !isLoading && (
               <>
                 {data[currentPage - 1].map((row: any, rowIndex: number) => (
