@@ -19,6 +19,10 @@ const initialValues: ChangeStatusFormValues = {
 
 const statusOptions: StatusOption[] = [
   {
+    label: "PENDENTE",
+    value: "PENDENTE",
+  },
+  {
     label: "EM ANÁLISE BOT",
     value: "EM ANÁLISE BOT",
   },
@@ -81,6 +85,7 @@ const ChangeStatusForm: React.FC<ChangeStatusFormProps> = ({
         options={statusOptions}
         error={formik.touched.status && !!formik.errors.status}
         helperText={formik.touched.status ? formik.errors.status : ""}
+        disabled={false}
       />
 
       <div className={styles.btnRow}>

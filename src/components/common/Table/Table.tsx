@@ -16,13 +16,17 @@ import PhotosIcon from "@mui/icons-material/PhotoLibrarySharp";
 import MapsIcon from "@mui/icons-material/Map";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import RefreshIcon from "@mui/icons-material/ChangeCircle";
-import { splitArrayIntoChunks } from "../../../utils/utils.helper";
 import Pagination from "../Pagination/Pagination";
 import ActionButton from "../ActionButton/ActionButton";
 import { alpha, Chip, InputBase, Stack, styled } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Loading from "../Loading/Loading";
 import { useAppSelector } from "../../../store/hooks/useAppSelector";
+import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
+import {
+  pageChange,
+  perPageChange,
+} from "../../../store/applicationStore/actions";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -77,29 +81,31 @@ const Table: React.FC<TableProps> = ({
   isLoading,
 }) => {
   const applicationStore = useAppSelector((store) => store.application);
+  const dispatch = useAppDispatch();
 
   const [data, setData] = useState<Array<any>>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [totalPerPages, setTotalPerPages] = useState<number>(5);
 
   useEffect(() => {
     handleProcessing();
   }, [applicationStore.serviceOrders]);
 
   const handleProcessing = () => {
-    const dados = splitArrayIntoChunks(rows, totalPerPages);
-    setData(dados);
-    setTotalPages(dados.length);
+    if (applicationStore.total > applicationStore.perPage) {
+      setTotalPages(applicationStore.total / applicationStore.perPage);
+    } else {
+      setTotalPages(1);
+    }
+    setData(rows);
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    dispatch(pageChange(page));
   };
 
   const handlePerPageChange = (value: number) => {
-    setCurrentPage(1);
-    setTotalPerPages(value);
+    dispatch(pageChange(1));
+    dispatch(perPageChange(value));
   };
 
   return (
@@ -128,11 +134,11 @@ const Table: React.FC<TableProps> = ({
           <caption style={{ backgroundColor: "#f8ffff" }}>
             <Pagination
               totalPages={totalPages}
-              currentPage={currentPage}
+              currentPage={applicationStore.page}
               onPageChange={handlePageChange}
               onItemsPerPageChange={handlePerPageChange}
-              totalItems={rows.length}
-              itemsPerPage={totalPerPages}
+              totalItems={applicationStore.total}
+              itemsPerPage={applicationStore.perPage}
             />
           </caption>
           <TableHead>
@@ -176,7 +182,7 @@ const Table: React.FC<TableProps> = ({
           <TableBody sx={{ maxHeight: "400px" }}>
             {data.length > 0 && !isLoading && (
               <>
-                {data[currentPage - 1].map((row: any, rowIndex: number) => (
+                {data.map((row: any, rowIndex: number) => (
                   <>
                     <TableRow key={rowIndex}>
                       {Object.keys(row)
@@ -194,11 +200,25 @@ const Table: React.FC<TableProps> = ({
                               {key == "category" && (
                                 <Stack direction="column" spacing={1}>
                                   <Chip
+                                    onClick={() =>
+                                      onOpenModal(
+                                        row,
+                                        "Atualizar Categoria",
+                                        "category"
+                                      )
+                                    }
                                     label={row[key]}
                                     color="info"
                                     variant="outlined"
                                   />
                                   <Chip
+                                    onClick={() =>
+                                      onOpenModal(
+                                        row,
+                                        "Atualizar Categoria",
+                                        "category"
+                                      )
+                                    }
                                     label={row["subCategory"]}
                                     color="success"
                                     variant="outlined"

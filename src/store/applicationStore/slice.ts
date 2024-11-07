@@ -1,14 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { applicationInitialState } from "./initialState";
 import {
+  IChangeCategoryResponse,
   IChangeStatusOrderPayload,
+  IChangeTeamResponse,
   ILoginResponse,
   IServiceOrder,
   IServiceOrdersResponse,
-  ITeam,
+  ITeamsResponse,
 } from "./interfaces";
-import { getServiceOrdersAsync, loginAsync } from "./thunks";
-import { transformItems } from "../../utils/utils.helper";
+import {
+  changeCategoryAsync,
+  changeTeamAsync,
+  getServiceOrdersAsync,
+  getTeamsAsync,
+  loginAsync,
+} from "./thunks";
+import { transformItems, transformTeams } from "../../utils/utils.helper";
 
 export const applicationSlice = createSlice({
   name: "application",
@@ -17,21 +25,17 @@ export const applicationSlice = createSlice({
     saveUser(state, action: PayloadAction<string>) {
       state.user.username = action.payload;
     },
+    clearErrors(state) {
+      state.errorLogin = null;
+      state.errorServiceOrders = null;
+      state.errorTeam = null;
+      state.errorTeams = null;
+      state.errorCategory = null;
+      state.errorStatus = null;
+    },
     logout(state) {
       state.user.username = null;
       state.user.accessToken = null;
-    },
-    changeTeam(
-      state,
-      action: PayloadAction<{ idOrder: string; newTeam: ITeam }>
-    ) {
-      const { idOrder, newTeam } = action.payload;
-      state.serviceOrders = state.serviceOrders.map((order) => {
-        if (order.id === idOrder) {
-          return { ...order, team: newTeam };
-        }
-        return order;
-      });
     },
     changeStatus(state, action: PayloadAction<IChangeStatusOrderPayload>) {
       const { idOrder, status } = action.payload;
@@ -46,6 +50,12 @@ export const applicationSlice = createSlice({
     loadOrders(state, action: PayloadAction<IServiceOrder[]>) {
       state.serviceOrders = action.payload;
     },
+    pageChange(state, action: PayloadAction<number>) {
+      state.page = action.payload;
+    },
+    perPageChange(state, action: PayloadAction<number>) {
+      state.perPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,6 +68,7 @@ export const applicationSlice = createSlice({
         getServiceOrdersAsync.fulfilled,
         (state, action: PayloadAction<IServiceOrdersResponse>) => {
           state.loading = false;
+          state.total = action.payload.total;
           state.serviceOrders = transformItems(action.payload.chamados);
         }
       )
@@ -81,6 +92,77 @@ export const applicationSlice = createSlice({
       .addCase(loginAsync.rejected, (state, action) => {
         state.loading = false;
         state.errorLogin = action.payload as string;
+      })
+
+      // CHANGE TEAM
+      .addCase(changeTeamAsync.pending, (state) => {
+        state.loading = true;
+        state.errorTeam = null;
+      })
+      .addCase(
+        changeTeamAsync.fulfilled,
+        (state, action: PayloadAction<IChangeTeamResponse | undefined>) => {
+          if (action.payload) {
+            const { idOrder, team } = action.payload;
+            state.loading = false;
+            state.serviceOrders = state.serviceOrders.map((order) => {
+              if (order.id === idOrder) {
+                return { ...order, team: team };
+              }
+              return order;
+            });
+          }
+        }
+      )
+      .addCase(changeTeamAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errorTeam = action.payload as string;
+      })
+
+      // TEAMS
+      .addCase(getTeamsAsync.pending, (state) => {
+        state.loadingModal = true;
+        state.errorTeams = null;
+      })
+      .addCase(
+        getTeamsAsync.fulfilled,
+        (state, action: PayloadAction<ITeamsResponse>) => {
+          state.loadingModal = false;
+          state.teams = transformTeams(action.payload.times);
+        }
+      )
+      .addCase(getTeamsAsync.rejected, (state, action) => {
+        state.loadingModal = false;
+        state.errorTeams = action.payload as string;
+      })
+
+      // CHANGE CATEGORY
+      .addCase(changeCategoryAsync.pending, (state) => {
+        state.loading = true;
+        state.errorCategory = null;
+      })
+      .addCase(
+        changeCategoryAsync.fulfilled,
+        (state, action: PayloadAction<IChangeCategoryResponse | undefined>) => {
+          if (action.payload) {
+            const { idOrder, category } = action.payload;
+            state.loading = false;
+            state.serviceOrders = state.serviceOrders.map((order) => {
+              if (order.id === idOrder) {
+                return {
+                  ...order,
+                  category: category.tipo,
+                  subCategory: category.subtipo,
+                };
+              }
+              return order;
+            });
+          }
+        }
+      )
+      .addCase(changeCategoryAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errorCategory = action.payload as string;
       });
   },
 });

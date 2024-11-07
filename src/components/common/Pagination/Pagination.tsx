@@ -28,6 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   const renderPages = () => {
+    console.log("b: ", totalPages, currentPage);
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
       if (
@@ -60,7 +61,7 @@ const Pagination: React.FC<PaginationProps> = ({
         );
       }
     }
-
+    console.log("a: ", pages);
     return pages;
   };
 

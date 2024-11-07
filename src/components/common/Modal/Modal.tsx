@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal as ModalMui, Box, Typography } from "@mui/material";
 import { ModalProps } from "./Modal.types";
+import { useAppSelector } from "../../../store/hooks/useAppSelector";
+import Loading from "../Loading/Loading";
 
 const Modal: React.FC<ModalProps> = ({
   open,
@@ -9,6 +11,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   maxWidth,
 }) => {
+  const { loadingModal } = useAppSelector((store) => store.application);
   return (
     <ModalMui
       open={open}
@@ -31,6 +34,7 @@ const Modal: React.FC<ModalProps> = ({
           maxWidth,
         }}
       >
+        {loadingModal && <Loading />}
         {title && (
           <Typography
             id="modal-title"

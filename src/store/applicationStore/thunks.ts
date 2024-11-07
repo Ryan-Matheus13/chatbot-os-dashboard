@@ -1,30 +1,32 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  IChangeCategoryPayload,
+  IChangeCategoryResponse,
   IChangeTeamPayload,
+  IChangeTeamResponse,
   IGetServiceOrdersPayload,
   ILoginPayload,
   ILoginResponse,
   IServiceOrdersResponse,
-  ITeam,
+  ITeamsResponse,
 } from "./interfaces";
-import { changeTeam } from "./actions";
 import axios from "axios";
 import { RootState } from "../types";
 
-export const changeTeamAsync = createAsyncThunk(
-  "application/changeTeam",
-  async (payload: IChangeTeamPayload, { dispatch }) => {
-    const { idTeam, idOrder } = payload;
+// export const changeTeamAsync = createAsyncThunk(
+//   "application/changeTeam",
+//   async (payload: IChangeTeamPayload, { dispatch }) => {
+//     const { idTeam, idOrder } = payload;
 
-    const response = await fetch("/teams.json");
-    const teams: ITeam[] = await response.json();
-    const newTeam = teams.find((team) => team.id === idTeam);
+//     const response = await fetch("/teams.json");
+//     const teams: ITeam[] = await response.json();
+//     const newTeam = teams.find((team) => team.id === idTeam);
 
-    if (newTeam && idOrder) {
-      dispatch(changeTeam({ idOrder, newTeam: newTeam }));
-    }
-  }
-);
+//     if (newTeam && idOrder) {
+//       dispatch(changeTeam({ idOrder, newTeam: newTeam }));
+//     }
+//   }
+// );
 
 export const getServiceOrdersAsync = createAsyncThunk<
   IServiceOrdersResponse,
@@ -61,6 +63,41 @@ export const getServiceOrdersAsync = createAsyncThunk<
   }
 );
 
+export const getTeamsAsync = createAsyncThunk<
+  ITeamsResponse,
+  IGetServiceOrdersPayload,
+  { state: RootState }
+>(
+  "application/getTeams",
+  async (payload: IGetServiceOrdersPayload, { rejectWithValue, getState }) => {
+    const { page, perPage } = payload;
+    const { accessToken } = getState().application.user;
+
+    try {
+      const response = await axios.get<ITeamsResponse>(
+        import.meta.env.VITE_URL_API + "/times",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            page: page ? page : 1,
+            perPage: perPage ? perPage : 10,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.msg || "Erro ao buscar times"
+        );
+      }
+      return rejectWithValue("Erro desconhecido ao buscar times");
+    }
+  }
+);
+
 export const loginAsync = createAsyncThunk(
   "auth/login",
   async (payload: ILoginPayload, { rejectWithValue }) => {
@@ -78,6 +115,115 @@ export const loginAsync = createAsyncThunk(
       }
 
       return rejectWithValue("Erro desconhecido ao efetuar login");
+    }
+  }
+);
+
+export const changeTeamAsync = createAsyncThunk<
+  IChangeTeamResponse | undefined,
+  IChangeTeamPayload,
+  { state: RootState }
+>(
+  "application/changeTeam",
+  async (payload: IChangeTeamPayload, { rejectWithValue, getState }) => {
+    const { idOrder, team } = payload;
+    const { accessToken } = getState().application.user;
+    try {
+      const response = await axios.patch<IChangeTeamResponse>(
+        import.meta.env.VITE_URL_API + `/chamados/${idOrder}/time`,
+        {
+          time_id: team.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        return { idOrder, team };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.msg || "Erro ao efetuar troca de time"
+        );
+      }
+
+      return rejectWithValue("Erro desconhecido ao efetuar troca de time");
+    }
+  }
+);
+
+// export const changeStatusAsync = createAsyncThunk<
+//   IChangeStatusResponse | undefined,
+//   IChangeStatusPayload,
+//   { state: RootState }
+// >(
+//   "application/changeStatus",
+//   async (payload: IChangeStatusPayload, { rejectWithValue, getState }) => {
+//     const { idOrder, team } = payload;
+//     const { accessToken } = getState().application.user;
+//     try {
+//       const response = await axios.patch<IChangeStatusResponse>(
+//         import.meta.env.VITE_URL_API + `/chamados/${idOrder}/time`,
+//         {
+//           time_id: team.id,
+//         },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${accessToken}`,
+//           },
+//         }
+//       );
+
+//       if (response.data) {
+//         return { idOrder, team };
+//       }
+//     } catch (error) {
+//       if (axios.isAxiosError(error)) {
+//         return rejectWithValue(
+//           error.response?.data?.msg || "Erro ao efetuar troca de time"
+//         );
+//       }
+
+//       return rejectWithValue("Erro desconhecido ao efetuar troca de time");
+//     }
+//   }
+// );
+
+export const changeCategoryAsync = createAsyncThunk<
+  IChangeCategoryResponse | undefined,
+  IChangeCategoryPayload,
+  { state: RootState }
+>(
+  "application/changeCategory",
+  async (payload: IChangeCategoryPayload, { rejectWithValue, getState }) => {
+    const { idOrder, category } = payload;
+    const { accessToken } = getState().application.user;
+    try {
+      const response = await axios.patch<IChangeCategoryResponse>(
+        import.meta.env.VITE_URL_API + `/chamados/${idOrder}/categoria`,
+        category,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        return { idOrder, category };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.msg || "Erro ao efetuar troca de time"
+        );
+      }
+
+      return rejectWithValue("Erro desconhecido ao efetuar troca de time");
     }
   }
 );

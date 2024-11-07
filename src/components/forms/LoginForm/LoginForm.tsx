@@ -6,7 +6,6 @@ import { useFormik } from "formik";
 import { LoginFormValues } from "./LoginForm.types";
 import { loginSchema } from "./ValidationSchema";
 import InputField from "../../common/InputField/InputField";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
 import { saveUser } from "../../../store/applicationStore/actions";
@@ -20,8 +19,7 @@ const initialValues: LoginFormValues = {
 };
 
 const LoginForm: React.FC = () => {
-  const navigate = useNavigate();
-  const { user, loading, errorLogin } = useAppSelector(
+  const { loading, errorLogin } = useAppSelector(
     (store) => store.application
   );
   const dispatch = useAppDispatch();
@@ -33,11 +31,7 @@ const LoginForm: React.FC = () => {
       dispatch(
         loginAsync({ username: values.username, password: values.password })
       );
-      console.log("error: ", errorLogin);
-      if (user.accessToken) {
-        dispatch(saveUser(values.username));
-        navigate("/ordens-de-servicos");
-      }
+      dispatch(saveUser(values.username));
     },
   });
 

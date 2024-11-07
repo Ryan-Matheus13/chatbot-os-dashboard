@@ -12,54 +12,64 @@ import SelectField from "../../common/SelectField/SelectField";
 import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
 import Button from "../../common/Button/Button";
 import { ITeam } from "../../../store/applicationStore/interfaces";
-import { changeTeamAsync } from "../../../store/applicationStore/thunks";
+import {
+  changeTeamAsync,
+  getTeamsAsync,
+} from "../../../store/applicationStore/thunks";
+import { useAppSelector } from "../../../store/hooks/useAppSelector";
+import { toast } from "react-toastify";
 
 const initialValues: ChangeTeamFormValues = {
   team: "",
 };
 
-const ChangeTeamForm: React.FC<ChangeTeamFormProps> = ({
-  order,
-  onClose,
-  onLoading,
-}) => {
+const ChangeTeamForm: React.FC<ChangeTeamFormProps> = ({ order, onClose }) => {
+  const { errorTeam, errorTeams, teams } = useAppSelector(
+    (store) => store.application
+  );
   const dispatch = useAppDispatch();
 
   const [options, setOptions] = useState<TeamOption[]>([]);
 
   useEffect(() => {
-    formik.setFieldValue("team", order?.team?.id);
-    const fetchData = async () => {
-      const response = await fetch("/teams.json");
-      const teams = await response.json();
-      if (teams) {
-        const data = teams.map((team: ITeam) => {
-          return {
-            label: team.name,
-            value: team.id,
-          };
-        });
-        setOptions(data);
-      }
-    };
+    dispatch(getTeamsAsync({ page: 1, perPage: 10 }));
+  }, [dispatch]);
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    formik.setFieldValue("team", order?.team?.id);
+    if (teams.length > 0) {
+      const data = teams.map((team: ITeam) => {
+        return {
+          label: team.name,
+          value: team.id,
+        };
+      });
+      setOptions(data);
+    }
+  }, [teams]);
+
+  useEffect(() => {
+    toast.error(errorTeam);
+  }, [errorTeam]);
+
+  useEffect(() => {
+    toast.error(errorTeams);
+  }, [errorTeams]);
 
   const formik = useFormik<ChangeTeamFormValues>({
     initialValues,
     validationSchema: changeTeamSchema,
     onSubmit: (values: ChangeTeamFormValues) => {
-      handleChangeTeam(values.team);
+      const teamName = options.filter((opt) => opt.value == values.team);
+      dispatch(
+        changeTeamAsync({
+          team: { id: values.team, name: teamName[0].label },
+          idOrder: order?.id,
+        })
+      );
+      onClose();
     },
   });
-
-  const handleChangeTeam = async (idTeam: string) => {
-    onLoading(true);
-    await dispatch(changeTeamAsync({ idTeam, idOrder: order?.id }));
-    onLoading(false);
-    onClose();
-  };
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
@@ -72,6 +82,7 @@ const ChangeTeamForm: React.FC<ChangeTeamFormProps> = ({
         options={options}
         error={formik.touched.team && !!formik.errors.team}
         helperText={formik.touched.team ? formik.errors.team : ""}
+        disabled={false}
       />
 
       <div className={styles.btnRow}>

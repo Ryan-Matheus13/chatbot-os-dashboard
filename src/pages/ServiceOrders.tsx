@@ -12,11 +12,11 @@ import Map from "../components/common/Map/Map";
 import InfoCard from "../components/common/InfoCard/InfoCard";
 import { getServiceOrdersAsync } from "../store/applicationStore/thunks";
 import { toast } from "react-toastify";
+import ChangeCategoryForm from "../components/forms/ChangeCategoryForm/ChangeCategoryForm";
 
 export default function ServiceOrders() {
-  const { serviceOrders, loading, errorServiceOrders } = useAppSelector(
-    (store) => store.application
-  );
+  const { serviceOrders, loading, errorServiceOrders, page, perPage } =
+    useAppSelector((store) => store.application);
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -38,8 +38,8 @@ export default function ServiceOrders() {
   };
 
   useEffect(() => {
-    dispatch(getServiceOrdersAsync({ page: 1, perPage: 10 }));
-  }, [dispatch]);
+    dispatch(getServiceOrdersAsync({ page, perPage }));
+  }, [dispatch, page, perPage]);
 
   useEffect(() => {
     toast.error(errorServiceOrders);
@@ -74,6 +74,20 @@ export default function ServiceOrders() {
         ]}
         onOpenModal={handleOpenModal}
       />
+      {modalPage == "category" && (
+        <Modal
+          maxWidth="100%"
+          open={open}
+          close={handleClose}
+          title={modalTitle}
+        >
+          <ChangeCategoryForm
+            order={selectedOrder}
+            onClose={handleClose}
+            onLoading={() => {}}
+          />
+        </Modal>
+      )}
       {modalPage == "team" && (
         <Modal
           maxWidth="100%"

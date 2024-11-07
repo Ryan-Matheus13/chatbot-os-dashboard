@@ -13,6 +13,7 @@ import styles from "./SelectField.module.css";
 const SelectField: React.FC<SelectFieldProps> = ({
   id,
   name,
+  disabled,
   label,
   value,
   onChange,
@@ -33,6 +34,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
       <Select
         labelId={`${id}-label`}
         id={id}
+        disabled={disabled ? true : false}
         name={name}
         value={value}
         onChange={onChange}
