@@ -2,6 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   IChangeCategoryPayload,
   IChangeCategoryResponse,
+  IChangeStatusPayload,
+  IChangeStatusResponse,
   IChangeTeamPayload,
   IChangeTeamResponse,
   IGetServiceOrdersPayload,
@@ -12,21 +14,6 @@ import {
 } from "./interfaces";
 import axios from "axios";
 import { RootState } from "../types";
-
-// export const changeTeamAsync = createAsyncThunk(
-//   "application/changeTeam",
-//   async (payload: IChangeTeamPayload, { dispatch }) => {
-//     const { idTeam, idOrder } = payload;
-
-//     const response = await fetch("/teams.json");
-//     const teams: ITeam[] = await response.json();
-//     const newTeam = teams.find((team) => team.id === idTeam);
-
-//     if (newTeam && idOrder) {
-//       dispatch(changeTeam({ idOrder, newTeam: newTeam }));
-//     }
-//   }
-// );
 
 export const getServiceOrdersAsync = createAsyncThunk<
   IServiceOrdersResponse,
@@ -156,42 +143,42 @@ export const changeTeamAsync = createAsyncThunk<
   }
 );
 
-// export const changeStatusAsync = createAsyncThunk<
-//   IChangeStatusResponse | undefined,
-//   IChangeStatusPayload,
-//   { state: RootState }
-// >(
-//   "application/changeStatus",
-//   async (payload: IChangeStatusPayload, { rejectWithValue, getState }) => {
-//     const { idOrder, team } = payload;
-//     const { accessToken } = getState().application.user;
-//     try {
-//       const response = await axios.patch<IChangeStatusResponse>(
-//         import.meta.env.VITE_URL_API + `/chamados/${idOrder}/time`,
-//         {
-//           time_id: team.id,
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${accessToken}`,
-//           },
-//         }
-//       );
+export const changeStatusAsync = createAsyncThunk<
+  IChangeStatusResponse | undefined,
+  IChangeStatusPayload,
+  { state: RootState }
+>(
+  "application/changeStatus",
+  async (payload: IChangeStatusPayload, { rejectWithValue, getState }) => {
+    const { idOrder, status } = payload;
+    const { accessToken } = getState().application.user;
+    try {
+      const response = await axios.patch<IChangeStatusResponse>(
+        import.meta.env.VITE_URL_API + `/chamados/${idOrder}`,
+        {
+          status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-//       if (response.data) {
-//         return { idOrder, team };
-//       }
-//     } catch (error) {
-//       if (axios.isAxiosError(error)) {
-//         return rejectWithValue(
-//           error.response?.data?.msg || "Erro ao efetuar troca de time"
-//         );
-//       }
+      if (response.data) {
+        return { idOrder, status };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.msg || "Erro ao efetuar troca de status"
+        );
+      }
 
-//       return rejectWithValue("Erro desconhecido ao efetuar troca de time");
-//     }
-//   }
-// );
+      return rejectWithValue("Erro desconhecido ao efetuar troca de status");
+    }
+  }
+);
 
 export const changeCategoryAsync = createAsyncThunk<
   IChangeCategoryResponse | undefined,

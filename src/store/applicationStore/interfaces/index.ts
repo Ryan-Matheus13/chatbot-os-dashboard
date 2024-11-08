@@ -64,6 +64,17 @@ type IChangeCategoryPayload = {
   };
 };
 
+type IChangeStatusResponse = {
+  status: string;
+  idOrder: string;
+}
+
+type IChangeStatusPayload = {
+  status: string;
+  idOrder: string;
+}
+
+
 type IChangeTeamPayload = {
   team: {
     id: string;
@@ -163,4 +174,6 @@ export type {
   IChangeCategoryResponse,
   IChangeCategoryPayload,
   ICategory,
+  IChangeStatusResponse,
+IChangeStatusPayload
 };

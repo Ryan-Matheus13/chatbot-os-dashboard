@@ -3,6 +3,7 @@ import { applicationInitialState } from "./initialState";
 import {
   IChangeCategoryResponse,
   IChangeStatusOrderPayload,
+  IChangeStatusResponse,
   IChangeTeamResponse,
   ILoginResponse,
   IServiceOrder,
@@ -11,12 +12,14 @@ import {
 } from "./interfaces";
 import {
   changeCategoryAsync,
+  changeStatusAsync,
   changeTeamAsync,
   getServiceOrdersAsync,
   getTeamsAsync,
   loginAsync,
 } from "./thunks";
 import { transformItems, transformTeams } from "../../utils/utils.helper";
+import { toast } from 'react-toastify';
 
 export const applicationSlice = createSlice({
   name: "application",
@@ -87,6 +90,7 @@ export const applicationSlice = createSlice({
         (state, action: PayloadAction<ILoginResponse>) => {
           state.loading = false;
           state.user.accessToken = action.payload.access_token;
+          toast.success(`Seja Bem vindo, ${state.user.username}!`)
         }
       )
       .addCase(loginAsync.rejected, (state, action) => {
@@ -111,6 +115,7 @@ export const applicationSlice = createSlice({
               }
               return order;
             });
+            toast.success("Time atualizado com sucesso!")
           }
         }
       )
@@ -157,12 +162,39 @@ export const applicationSlice = createSlice({
               }
               return order;
             });
+            toast.success("Categoria atualizada com sucesso!")
           }
         }
       )
       .addCase(changeCategoryAsync.rejected, (state, action) => {
         state.loading = false;
         state.errorCategory = action.payload as string;
+      })
+
+      // CHANGE STATUS
+      .addCase(changeStatusAsync.pending, (state) => {
+        state.loading = true;
+        state.errorStatus = null;
+      })
+      .addCase(
+        changeStatusAsync.fulfilled,
+        (state, action: PayloadAction<IChangeStatusResponse | undefined>) => {
+          if (action.payload) {
+            const { idOrder, status } = action.payload;
+            state.loading = false;
+            state.serviceOrders = state.serviceOrders.map((order) => {
+              if (order.id === idOrder) {
+                return { ...order, status };
+              }
+              return order;
+            });
+            toast.success("Status atualizado com sucesso!")
+          }
+        }
+      )
+      .addCase(changeStatusAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.errorStatus = action.payload as string;
       });
   },
 });

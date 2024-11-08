@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
@@ -101,10 +102,14 @@ const ChangeCategoryForm: React.FC<ChangeCategoryFormProps> = ({
   });
 
   useEffect(() => {
-    handleChangeCategory();
-  }, [formik.values.category]);
+    handleChangeCategory()
+  }, [formik.values.category])
 
-  const handleChangeCategory = () => {
+  const handleChangeCategory = (e?: any) => {
+    if (e) {
+      formik.setFieldValue("category", e.target.value);
+      formik.setFieldValue("subCategory", null);
+    }
     const categoryObj = categorys.find(
       (item) => item.name === formik.values.category
     );
@@ -127,7 +132,7 @@ const ChangeCategoryForm: React.FC<ChangeCategoryFormProps> = ({
         name="category"
         label="Escolha uma Categoria"
         value={formik.values.category}
-        onChange={formik.handleChange}
+        onChange={handleChangeCategory}
         options={options}
         error={formik.touched.category && !!formik.errors.category}
         helperText={formik.touched.category ? formik.errors.category : ""}

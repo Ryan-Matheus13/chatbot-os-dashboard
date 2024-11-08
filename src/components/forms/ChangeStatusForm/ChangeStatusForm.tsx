@@ -11,7 +11,7 @@ import { changeStatusSchema } from "./ValidationSchema";
 import SelectField from "../../common/SelectField/SelectField";
 import { useAppDispatch } from "../../../store/hooks/useAppDispatch";
 import Button from "../../common/Button/Button";
-import { changeStatus } from "../../../store/applicationStore/actions";
+import { changeStatusAsync } from '../../../store/applicationStore/thunks';
 
 const initialValues: ChangeStatusFormValues = {
   status: "",
@@ -23,16 +23,16 @@ const statusOptions: StatusOption[] = [
     value: "PENDENTE",
   },
   {
+    label: "ABERTO",
+    value: "ABERTO",
+  },
+  {
     label: "EM ANÁLISE BOT",
     value: "EM ANÁLISE BOT",
   },
   {
     label: "EM ANÁLISE HUMANA",
     value: "EM ANÁLISE HUMANA",
-  },
-  {
-    label: "ABERTO",
-    value: "ABERTO",
   },
   {
     label: "EQUIPE ALOCADA",
@@ -51,7 +51,6 @@ const statusOptions: StatusOption[] = [
 const ChangeStatusForm: React.FC<ChangeStatusFormProps> = ({
   order,
   onClose,
-  onLoading,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -59,20 +58,16 @@ const ChangeStatusForm: React.FC<ChangeStatusFormProps> = ({
     initialValues,
     validationSchema: changeStatusSchema,
     onSubmit: (values: ChangeStatusFormValues) => {
-      handleChangeStatus(values.status);
+      if (order?.id) {
+        dispatch(changeStatusAsync({ idOrder: order.id, status: values.status }))
+        onClose()
+      }
     },
   });
 
   useEffect(() => {
     formik.setFieldValue("status", order?.status);
   }, []);
-
-  const handleChangeStatus = (status: string) => {
-    onLoading(true);
-    dispatch(changeStatus({ idOrder: order?.id, status }));
-    onClose();
-    onLoading(false);
-  };
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.formContainer}>
